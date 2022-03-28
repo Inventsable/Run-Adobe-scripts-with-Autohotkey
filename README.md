@@ -8,7 +8,7 @@ We can write a simple JSX script (for Illustrator here):
 app.doScript("someAction", "someActionSet"); // Executes an Illustrator Action
 ```
 
-Then we can use COM objects in AHK to remotely execute this script in any way we'd like:
+Then we can use either use COM objects in AHK to remotely execute this script in any way we'd like:
 
 ```ahk
 ; Default AHK header / auto-execute section
@@ -25,6 +25,23 @@ F1::
 return
 ```
 
+Or execute them directly via `Run` command:
+
+````ahk
+#IfWinActive ahk_class illustrator
+  F1:: RunScript("Script_1.jsx")
+  F2:: RunScript("Script_2.jsx")
+
+  RunScript(script)
+  {
+    ;Main script folder
+    FullPath := "d:\Resources\Scripts\Illustrator\" . script
+    Run Illustrator.exe %FullPath% , ,Max
+    return
+  }
+```
+
 The above runs our Illustrator script every time I press the F1 key. You can further customize it to only do so if Illustrator is the active window, to launch AI if not already open beforehand, to only do this with certain modifier keys, and a lot more.
 
 AHK is incredibly flexible and can trigger code through virtually any hotkey, combination of hotkeys, hotstrings (typed words/phrases like "hello world"), sequences of keys and beyond. It's far more robust than what Adobe provides and gives you very low-level (technical, close to hardware) control of automation, so knowing how to do this could be very useful for Adobe power-users.
+````
